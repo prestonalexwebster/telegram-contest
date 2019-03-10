@@ -2,11 +2,17 @@ import DomRenderer from '../../utils/dom-renderer';
 import Component from '../../utils/component';
 import {TagsFactory} from "../../utils/elements-factory";
 
+
+function getLinearPath(points){
+    const [start, ...restPoints] = points;
+    return `M${start.x} ${start.y} ${restPoints.map(({x,y}) => `L${x} ${y}`).join(' ')}`;
+}
+
 export default class ChartPreview extends Component {
 
     chartContainer = new DomRenderer('svg', {svg: true});
 
-    pointsFactory = new TagsFactory('circle', {svg: true});
+    lineFactory = new TagsFactory('path', {svg: true});
 
     getRef(){
         return this.chartContainer;
@@ -15,21 +21,20 @@ export default class ChartPreview extends Component {
     renderChart(children){
         return this.chartContainer
             .attr('width', '800px')
-            .attr('height', '100px')
+            .attr('height', '50px')
             .children(children)
             .render();
     }
 
-    renderPoint = ({x,y}, i, point) => {
-         return point.attr('cx',x)
-             .attr('cy', 100-y)
-             .attr('r', 2)
-             .attr('fill', 'blue')
+    renderPath = (points, i, path) => {
+         return path.attr('d', getLinearPath(points))
+             .attr('stroke', points[0].color)
+             .attr('fill', 'none')
              .render();
     };
 
     render(){
-        const {points = []} = this.attributes;
-        return this.renderChart(this.pointsFactory.render(points, (p,i) => i, this.renderPoint));
+        const {lines = []} = this.attributes;
+        return this.renderChart(this.lineFactory.render(lines, (l,i) => i, this.renderPath));
     }
 }

@@ -1,8 +1,9 @@
 import ChartPreview from './components/chart-preview/chart-preview';
 import DataStorage from './utils/data-storage';
-import PointsController from './domain/poinst-controller';
+import {fetchCharts} from "./api/get-charts";
+import {linesSelector} from "./selectors/points-selectors";
 
-const pointsController = new PointsController();
+
 const store = new DataStorage();
 
 
@@ -12,11 +13,16 @@ chartPreview.render();
 chartPreview.mount(document.body);
 
 store.subscribe(state => {
-   chartPreview.attr('points', state.points)
+   const lines = linesSelector(state);
+   chartPreview.attr('lines', lines)
        .render();
 });
 
-store.setState(pointsController.loadPoints);
 
+fetchCharts().then( charts => store.setState(
+    state => {
+       return {...state, charts};
+    }
+));
 
 
