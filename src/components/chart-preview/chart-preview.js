@@ -1,6 +1,6 @@
-import DomRenderer from '../../utils/dom-renderer';
-import Component from '../../utils/component';
-import {TagsFactory} from "../../utils/elements-factory";
+import DomRenderer from '../../core/dom-renderer';
+import Component from '../../core/component';
+import {TagsFactory} from "../../core/elements-factory";
 
 
 function getLinearPath(points){

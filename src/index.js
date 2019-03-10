@@ -1,5 +1,5 @@
 import ChartPreview from './components/chart-preview/chart-preview';
-import DataStorage from './utils/data-storage';
+import DataStorage from './core/data-storage';
 import {fetchCharts} from "./api/get-charts";
 import {linesSelector} from "./selectors/points-selectors";
 
