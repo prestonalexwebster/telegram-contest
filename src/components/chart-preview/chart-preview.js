@@ -3,16 +3,11 @@ import Component from '../../core/component';
 import {TagsFactory} from "../../core/elements-factory";
 
 
-function getLinearPath(points){
-    const [start, ...restPoints] = points;
-    return `M${start.x} ${start.y} ${restPoints.map(({x,y}) => `L${x} ${y}`).join(' ')}`;
-}
-
 export default class ChartPreview extends Component {
 
     chartContainer = new DomRenderer('svg', {svg: true});
 
-    lineFactory = new TagsFactory('path', {svg: true});
+    lineFactory = new TagsFactory('path', {pure: true, svg: true});
 
     getRef(){
         return this.chartContainer;
@@ -20,17 +15,20 @@ export default class ChartPreview extends Component {
 
     renderChart(children){
         return this.chartContainer
-            .attr('width', '800px')
+            .attr('viewBox', "0 0 1 1")
+            .attr('width', '600px')
             .attr('height', '50px')
+            .attr('preserveAspectRatio',"none")
             .children(children)
             .render();
     }
 
-    renderPath = (points, i, path) => {
-         return path.attr('d', getLinearPath(points))
-             .attr('stroke', points[0].color)
-             .attr('fill', 'none')
-             .render();
+    renderPath = (lines, i, path) => {
+         return path.attr('d', lines.path)
+             .attr('stroke', lines.color)
+             .attr("vector-effect","non-scaling-stroke")
+             .attr('stroke-width', '1px')
+             .attr('fill', 'none');
     };
 
     render(){

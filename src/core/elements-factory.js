@@ -1,4 +1,5 @@
 import DomRenderer from './dom-renderer';
+import PureDomRenderer from './pure-dom-renderer';
 
 class ElementsFactory {
 
@@ -28,11 +29,15 @@ class ElementsFactory {
 
 export class TagsFactory {
 
-    constructor(tag, options){
+    constructor(tag, {pure, ...options}){
         this.tag = tag;
         this.options = options;
-        this.elementsFactory = new ElementsFactory(this.factoryMethod);
+        this.elementsFactory = new ElementsFactory(pure ? this.pureFactoryMethod : this.factoryMethod);
     }
+
+    pureFactoryMethod = () => {
+        return new PureDomRenderer(this.tag, this.options);
+    };
 
     factoryMethod = () => {
         return new DomRenderer(this.tag, this.options);
