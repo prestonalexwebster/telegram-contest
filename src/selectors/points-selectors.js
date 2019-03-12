@@ -53,3 +53,34 @@ export const seekerSelector = state => {
         seekerWidth: (state.xRange[1]-state.xRange[0])*600
     }
 };
+
+export const rangesSelector = state => {
+    if(!state.xRange || !state.charts) return {};
+    const chart = state.charts[0];
+    const [xlabel, ...xColumn] = chart.columns.find(c => c[0] === 'x');
+    const yColumns = chart.columns.filter(c => c[0] !== 'x')
+        .reduce((a, [label, ...column]) => {
+            return {
+                ...a,
+                [label]: column
+            }
+        }, {});
+    const xMin = min(xColumn);
+    const xMax = max(xColumn);
+    const yMin = min(
+        Object.entries(yColumns).map(([title, column]) => min(column) )
+    );
+    const yMax = max(
+        Object.entries(yColumns).map(([title, column]) => max(column) )
+    );
+    //todo interpolate yChanges!
+    const indexStart = findNearestIndex(xColumn, xMin+state.xRange[0]*(xMax-xMin));
+    const indexEnd = findNearestIndex(xColumn, xMin+state.xRange[1]*(xMax-xMin));
+    const yStart = (min(Object.values(yColumns).map(c => min(c.slice(indexStart, indexEnd+1))))-yMin)/(yMax-yMin);
+    const yEnd = (max(Object.values(yColumns).map(c => max(c.slice(indexStart, indexEnd+1))))-yMin)/(yMax-yMin);
+
+    return {
+        xRange: state.xRange,
+        yRange: [yStart, yEnd]
+    }
+};

@@ -69,11 +69,9 @@ export default class ControlledChartPreview extends Component {
             .style('background-color', 'transparent')
             .style('cursor', 'pointer')
             .on('mousedown',this.dragStart)
-            .on('mousemove', this.drag)
-            .on('mouseup', this.dragEnd)
-            .on('mouseleave', this.dragEnd)
             .render();
     }
+
 
     renderLeftField(){
         const {seekerLeft} = this.attributes;
@@ -107,6 +105,9 @@ export default class ControlledChartPreview extends Component {
             .style('height', '50px')
             .style('left',0)
             .style('top', 0)
+            .on('mousemove', this.drag)
+            .on('mouseup', this.dragEnd)
+            .on('mouseleave', this.dragEnd)
             .children([
                 this.renderLeftField(),
                 this.renderSeeker(),
@@ -118,6 +119,7 @@ export default class ControlledChartPreview extends Component {
     renderContainer(children){
         return this.container
             .style('position', 'relative')
+            .style('user-select', 'none')
             .children(children)
             .render();
     }

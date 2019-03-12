@@ -47,6 +47,7 @@ export default class Component {
 
     unmount(){
         this.getRef().detouch();
+        //todo: call componentWillUnmount method
     }
 
     /**

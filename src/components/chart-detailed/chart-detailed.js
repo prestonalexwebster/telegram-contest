@@ -1,10 +1,10 @@
 import DomRenderer from '../../core/renderers/dom-renderer';
 import Component from '../../core/component/component';
 import {ChildrenTagsRenderer} from "../../core/renderers/children-renderer";
-import {linesSelector} from "../../selectors/points-selectors";
+import {linesSelector, rangesSelector} from "../../selectors/points-selectors";
 
 function getTransform([xMin, xMax], [yMin, yMax]){
-    return `scale(${1/(xMax-xMin)}, ${1/(yMax-yMin)}) translate(${-xMin},${-yMin})`
+    return `scale(${1/(xMax-xMin)}, ${1/(yMax-yMin)}) translate(${-xMin},${yMax-1})`
 }
 
 export default class ChartDetailed extends Component {
@@ -17,8 +17,8 @@ export default class ChartDetailed extends Component {
 
     selector = state => {
         const lines = linesSelector(state);
-        const xRange = state.xRange;
-        return {lines, xRange};
+        const {xRange, yRange} = rangesSelector(state);
+        return {lines, xRange, yRange};
     };
 
     getRef(){

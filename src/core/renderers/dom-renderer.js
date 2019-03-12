@@ -227,6 +227,7 @@ export default  class DomRenderer {
 
     detouch(){
         this.ref.parentElement.removeChild(this.ref);
+        //todo: remove all listeners here
     }
 
     appendTo(domElement){

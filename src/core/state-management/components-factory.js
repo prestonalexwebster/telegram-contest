@@ -17,6 +17,8 @@ class ChildrenComponentsRenderer {
         return this.elementsFactory.render(...args);
     }
 
+    //todo: add unmount method
+
 }
 
 export default class ComponentsFactory {
