@@ -1,16 +1,9 @@
-import Store from './core/store';
 import ChartLayout from "./components/chart-layout/chart-layout";
 import reducer from './domain/reducer';
-import ComponentsFactory from './core/components-factory';
+import AppBuilder from './core/app-builder'
 
-const store = new Store(reducer);
-const componentsFactory = new ComponentsFactory(store);
-
-const chartLayout = componentsFactory.create(ChartLayout);
-
-chartLayout.render();
-chartLayout.mount(document.body);
-
-
-
-
+const app = new AppBuilder()
+    .reducer(reducer)
+    .parent(document.body)
+    .root(ChartLayout)
+    .build();
