@@ -23,7 +23,7 @@ export default class ControlledChartPreview extends Component {
     rightField = new DomRenderer('div');
 
     selector(state){
-        const {seekerLeft = 0, seekerWidth = 50} = seekerSelector(state);
+        const {seekerLeft = 550, seekerWidth = 50} = seekerSelector(state);
         return {seekerLeft,seekerWidth};
     }
 

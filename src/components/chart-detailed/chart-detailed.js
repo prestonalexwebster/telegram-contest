@@ -17,7 +17,8 @@ export default class ChartDetailed extends Component {
 
     selector = state => {
         const lines = linesSelector(state);
-        return {lines};
+        const xRange = state.xRange;
+        return {lines, xRange};
     };
 
     getRef(){
@@ -43,7 +44,7 @@ export default class ChartDetailed extends Component {
     };
 
     renderView = (children) => {
-        const {xRange = [0,1], yRange = [0,1]} = this.attributes;
+        const {xRange = [550/600,1], yRange = [0,1]} = this.attributes;
         return this.view
             .attr('transform', getTransform(xRange, yRange))//todo: create xyRangesSelector (possibly discret by days)
             .children(children)
