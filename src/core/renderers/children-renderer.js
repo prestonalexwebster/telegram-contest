@@ -1,7 +1,7 @@
 import DomRenderer from './dom-renderer';
 import PureDomRenderer from './pure-dom-renderer';
 
-export class ChildrenFactory {
+export class ChildrenRenderer {
 
     cache = new Map();
 
@@ -27,12 +27,12 @@ export class ChildrenFactory {
     }
 }
 
-export class ChildrenTagsFactory {
+export class ChildrenTagsRenderer {
 
     constructor(tag, {pure, ...options}){
         this.tag = tag;
         this.options = options;
-        this.elementsFactory = new ChildrenFactory(pure ? this.pureFactoryMethod : this.factoryMethod);
+        this.elementsFactory = new ChildrenRenderer(pure ? this.pureFactoryMethod : this.factoryMethod);
     }
 
     pureFactoryMethod = () => {

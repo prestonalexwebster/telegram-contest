@@ -1,6 +1,6 @@
-import DomRenderer from '../../core/dom-renderer';
-import Component from '../../core/component';
-import {ChildrenTagsFactory} from "../../core/children-factory";
+import DomRenderer from '../../core/renderers/dom-renderer';
+import Component from '../../core/component/component';
+import {ChildrenTagsRenderer} from "../../core/renderers/children-renderer";
 import {linesSelector} from "../../selectors/points-selectors";
 
 
@@ -8,7 +8,7 @@ export default class ChartPreview extends Component {
 
     chartContainer = new DomRenderer('svg', {svg: true});
 
-    lineFactory = new ChildrenTagsFactory('path', {pure: true, svg: true});
+    linesRenderer = new ChildrenTagsRenderer('path', {pure: true, svg: true});
 
     getRef(){
         return this.chartContainer;
@@ -39,6 +39,6 @@ export default class ChartPreview extends Component {
 
     render(){
         const {lines = []} = this.attributes;
-        return this.renderChart(this.lineFactory.render(lines, (l,i) => i, this.renderPath));
+        return this.renderChart(this.linesRenderer.render(lines, (l, i) => i, this.renderPath));
     }
 }

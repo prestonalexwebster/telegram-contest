@@ -1,6 +1,6 @@
-import DomRenderer from '../../core/dom-renderer';
-import Component from '../../core/component';
-import {ChildrenTagsFactory} from "../../core/children-factory";
+import DomRenderer from '../../core/renderers/dom-renderer';
+import Component from '../../core/component/component';
+import {ChildrenTagsRenderer} from "../../core/renderers/children-renderer";
 import {linesSelector} from "../../selectors/points-selectors";
 
 function getTransform([xMin, xMax], [yMin, yMax]){
@@ -13,7 +13,7 @@ export default class ChartDetailed extends Component {
 
     view = new DomRenderer('g', {svg: true});
 
-    lineFactory = new ChildrenTagsFactory('path', {pure: true, svg: true});
+    linesRenderer = new ChildrenTagsRenderer('path', {pure: true, svg: true});
 
     selector = state => {
         const lines = linesSelector(state);
@@ -54,7 +54,7 @@ export default class ChartDetailed extends Component {
         const {lines = []} = this.attributes;
         return this.renderChart(
             [this.renderView(
-                this.lineFactory.render(lines, (l,i) => i, this.renderPath)
+                this.linesRenderer.render(lines, (l, i) => i, this.renderPath)
             )]
         );
     }

@@ -1,5 +1,5 @@
-import Component from "../../core/component";
-import DomRenderer from "../../core/dom-renderer";
+import Component from "../../core/component/component";
+import DomRenderer from "../../core/renderers/dom-renderer";
 import ChartDetailed from "../chart-detailed/chart-detailed";
 import ChartPreview from "../chart-preview/chart-preview";
 import {fetchCharts} from "../../domain/actions";

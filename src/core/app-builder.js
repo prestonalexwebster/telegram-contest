@@ -1,5 +1,5 @@
-import Store from "./store";
-import ComponentsFactory from "./components-factory";
+import Store from "./state-management/store";
+import ComponentsFactory from "./state-management/components-factory";
 
 
 export default class AppBuilder {

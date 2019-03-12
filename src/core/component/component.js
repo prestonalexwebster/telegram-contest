@@ -1,10 +1,10 @@
-import {bindAction} from "./bind-action";
+import {bindAction} from "../state-management/bind-action";
 
 export default class Component {
 
-    constructor(createComponent, createChildrenFactory){
+    constructor(createComponent, createChildrenRenderer){
         this.createComponent = createComponent;
-        this.createChildrenFactory = createChildrenFactory;
+        this.createChildrenRenderer = createChildrenRenderer;
     }
 
     actions = {};

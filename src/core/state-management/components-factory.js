@@ -1,12 +1,12 @@
-import {ChildrenFactory} from './children-factory';
+import {ChildrenRenderer} from '../renderers/children-renderer';
 
 
-class ChildrenComponentsFactory {
+class ChildrenComponentsRenderer {
 
     constructor(Component, createComponent){
         this.Component = Component;
         this.createComponent = createComponent;
-        this.elementsFactory = new ChildrenFactory(this.factoryMethod);
+        this.elementsFactory = new ChildrenRenderer(this.factoryMethod);
     }
 
     factoryMethod = () => {
@@ -25,10 +25,10 @@ export default class ComponentsFactory {
         this.store = store;
     }
 
-    createChildrenFactory = Class => new ChildrenComponentsFactory(Class, this.create);
+    createChildrenRenderer = Class => new ChildrenComponentsRenderer(Class, this.create);
 
     create = (Class) => {
-        const component = new Class(this.create, this.createChildrenFactory);
+        const component = new Class(this.create, this.createChildrenRenderer);
         component.postConstruct(this.store.dispatch, this.store.subscribe);
         return component;
     };
