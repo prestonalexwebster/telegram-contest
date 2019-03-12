@@ -1,6 +1,6 @@
-const min  = c => c.reduce((min,v) => Math.min(v,min),Infinity);
-const max = c => c.reduce((max,v) => Math.max(v,max),-Infinity);
-
+const min  = c => c.reduce((min,v) => Math.min(v,min));
+const max = c => c.reduce((max,v) => Math.max(v,max));
+const findNearestIndex = (c, x) => c.reduce((index,d,i)=> Math.abs(c[index] - x) > Math.abs(d - x) ? i : index, 0);
 
 const normalize = (value, vMin, vMax) => {
     return (value - vMin)/(vMax-vMin);
@@ -43,4 +43,13 @@ export const linesSelector = state => {
             path: getPath(xColumn, column, [xMin, xMax], [yMin, yMax])
         };
     });
+};
+
+
+export const seekerSelector = state => {
+    if(!state.xRange) return {};
+    return {
+        seekerLeft: state.xRange[0]*600,
+        seekerWidth: (state.xRange[1]-state.xRange[0])*600
+    }
 };

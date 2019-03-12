@@ -1,7 +1,7 @@
 import Component from "../../core/component/component";
 import DomRenderer from "../../core/renderers/dom-renderer";
 import ChartDetailed from "../chart-detailed/chart-detailed";
-import ChartPreview from "../chart-preview/chart-preview";
+import ControlledChartPreview from '../controlled-chart-preview/controlled-chart-preview';
 import {fetchCharts} from "../../domain/actions";
 
 
@@ -15,9 +15,8 @@ export default class ChartLayout extends Component {
 
     chartDetailed = this.createComponent(ChartDetailed);
 
-    chartPreview = this.createComponent(ChartPreview);
+    chartPreview = this.createComponent(ControlledChartPreview);
 
-    test = new DomRenderer('span');
 
     getRef(){
         return this.grid;
@@ -41,8 +40,7 @@ export default class ChartLayout extends Component {
     render(){
         return this.renderGrid([
             this.chartDetailed.render(),
-            this.chartPreview.render(),
-            this.test.text("Hello").render()
+            this.chartPreview.render()
         ]);
     }
 }
