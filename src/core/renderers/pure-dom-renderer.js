@@ -34,8 +34,17 @@ export default class PureDomRenderer {
         return this;
     }
 
+    text(textContent){
+        this.ref.textContent = textContent;
+        return this;
+    }
+
     classes(classList){
-        this.ref.className = classList.join(" ");
+        if (this.svg) {
+            this.ref.setAttributeNS(null,'class', classList.join(" "));
+        } else {
+            this.ref.setAttribute('class', classList.join(" "));
+        }
         return this;
     }
 

@@ -22,6 +22,8 @@ export default  class DomRenderer {
 
     classList = [];
 
+    textContent = null;
+
     prevAttributes = {};
 
     prevStyleProps = {};
@@ -33,6 +35,8 @@ export default  class DomRenderer {
     prevChildElements = [];
 
     prevClassList = [];
+
+    prevTextContent = null;
 
     constructor(tag, options = defaultOptions) {
         this.tag = tag;
@@ -48,6 +52,11 @@ export default  class DomRenderer {
 
     style(name, value) {
         this.styleProps[name] = value;
+        return this;
+    }
+
+    text(textContent){
+        this.textContent = textContent;
         return this;
     }
 
@@ -153,20 +162,18 @@ export default  class DomRenderer {
         if(!this.childElements.length){
             return;
         }
-        const lastElement = this.childElements[this.childElements.length-1];
-        if(lastElement.ref.parentElement !== this.ref){
-            this.ref.appendChild(lastElement.ref);
+        const firstElement = this.childElements[0];
+        if(firstElement.ref.parentElement !== this.ref){
+            this.ref.appendChild(firstElement.ref);
         }
-        let currentChild = lastElement.ref;
-        let index = this.childElements.length-2;
-        while(index >= 0){
-            const nextChild = this.childElements[index].ref;
-            if(nextChild !== this.ref){
+        let currentChild = firstElement.ref;
+        for(let i = 1; i < this.childElements.length; ++i){
+            const nextChild = this.childElements[i].ref;
+            if(nextChild.parentElement !== this.ref){
                 this.ref.appendChild(nextChild);
             }
             this.ref.insertBefore(currentChild, nextChild);
             currentChild = nextChild;
-            index--;
         }
     }
 
@@ -185,7 +192,18 @@ export default  class DomRenderer {
             this.classList.every((e,i) => this.prevClassList[i] === e)){
             return;
         }
-        this.ref.className = this.classList.join(' ');
+        if(this.svg){
+            this.ref.setAttributeNS(null, 'class', this.classList.join(' '));
+        }else{
+            this.ref.setAttribute('class', this.classList.join(' '));
+        }
+
+    }
+
+    updateTextContent(){
+        if(this.textContent !== this.prevTextContent){
+            this.ref.textContent = this.textContent;
+        }
     }
 
     render() {
@@ -194,7 +212,11 @@ export default  class DomRenderer {
         }
         this.updateClassList();
         this.updateDom();
-        this.updateChildren();
+        if(this.textContent){
+            this.updateTextContent();
+        }else{
+            this.updateChildren();
+        }
         this.updateState();
         return this;
     }

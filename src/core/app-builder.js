@@ -6,14 +6,17 @@ export default class AppBuilder {
 
     root(RootComponent){
         this.RootComponent = RootComponent;
+        return this;
     }
 
     parent(parentNode){
         this.parentNode = parentNode;
+        return this;
     }
 
     reducer(rootReducer){
         this.rootReducer = rootReducer;
+        return this;
     }
 
     build(){

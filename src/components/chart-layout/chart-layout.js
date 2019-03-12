@@ -17,8 +17,10 @@ export default class ChartLayout extends Component {
 
     chartPreview = this.createComponent(ChartPreview);
 
+    test = new DomRenderer('span');
+
     getRef(){
-        return this.chartContainer;
+        return this.grid;
     }
 
     componentDidMount(){
@@ -39,7 +41,8 @@ export default class ChartLayout extends Component {
     render(){
         return this.renderGrid([
             this.chartDetailed.render(),
-            this.chartPreview.render()
+            this.chartPreview.render(),
+            this.test.text("Hello").render()
         ]);
     }
 }
