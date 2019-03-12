@@ -1,7 +1,7 @@
 import DomRenderer from '../../core/dom-renderer';
 import Component from '../../core/component';
-import {TagsFactory} from "../../core/elements-factory";
-
+import {ChildrenTagsFactory} from "../../core/children-factory";
+import {linesSelector} from "../../selectors/points-selectors";
 
 function getTransform([xMin, xMax], [yMin, yMax]){
     return `scale(${1/(xMax-xMin)}, ${1/(yMax-yMin)}) translate(${-xMin},${-yMin})`
@@ -13,7 +13,12 @@ export default class ChartDetailed extends Component {
 
     view = new DomRenderer('g', {svg: true});
 
-    lineFactory = new TagsFactory('path', {pure: true, svg: true});
+    lineFactory = new ChildrenTagsFactory('path', {pure: true, svg: true});
+
+    selector = state => {
+        const lines = linesSelector(state);
+        return {lines};
+    };
 
     getRef(){
         return this.chartContainer;

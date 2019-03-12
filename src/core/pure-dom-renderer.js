@@ -30,11 +30,12 @@ export default class PureDomRenderer {
     }
 
     style(name, value) {
-        if (this.svg) {
-            throw new Error("Svg style is not yet supported!");
-        } else {
-            this.ref.style.setProperty(name, value);
-        }
+        this.ref.style.setProperty(name, value);
+        return this;
+    }
+
+    classes(classList){
+        this.ref.className = classList.join(" ");
         return this;
     }
 
@@ -57,6 +58,7 @@ export default class PureDomRenderer {
         this.ref.removeEventListener(event, callback, false);
         return this;
     }
+
 
 
     createElement(){

@@ -20,6 +20,8 @@ export default  class DomRenderer {
 
     childElements = [];
 
+    classList = [];
+
     prevAttributes = {};
 
     prevStyleProps = {};
@@ -29,6 +31,8 @@ export default  class DomRenderer {
     prevCaptureListeners = {};
 
     prevChildElements = [];
+
+    prevClassList = [];
 
     constructor(tag, options = defaultOptions) {
         this.tag = tag;
@@ -82,11 +86,7 @@ export default  class DomRenderer {
     };
 
     updateStyle = ([name, value]) => {
-        if (this.svg) {
-            throw new Error("Svg style is not yet supported!");
-        } else {
-            this.ref.style.setProperty(name, value);
-        }
+        this.ref.style.setProperty(name, value);
     };
 
     updateListeners = ([name, value]) => {
@@ -135,10 +135,12 @@ export default  class DomRenderer {
         this.prevAttributes = this.attributes;
         this.prevListeners = this.listeners;
         this.prevChildElements = this.childElements;
+        this.prevClassList = this.classList;
         this.styleProps = {...this.styleProps};
         this.attributes = {...this.attributes};
         this.listeners = {...this.listeners};
         this.childElements = [...this.childElements];
+        this.classList = [...this.classList];
     }
 
     updateChildren(){
@@ -173,10 +175,24 @@ export default  class DomRenderer {
         return this;
     }
 
+    classes(classList){
+        this.classList = classList;
+        return this;
+    }
+
+    updateClassList(){
+        if(this.prevClassList.length !== this.classList.length &&
+            this.classList.every((e,i) => this.prevClassList[i] === e)){
+            return;
+        }
+        this.ref.className = this.classList.join(' ');
+    }
+
     render() {
         if(!this.ref){
             this.ref = this.createElement();
         }
+        this.updateClassList();
         this.updateDom();
         this.updateChildren();
         this.updateState();

@@ -1,36 +1,16 @@
-import ChartPreview from './components/chart-preview/chart-preview';
-import DataStorage from './core/data-storage';
-import {fetchCharts} from "./api/get-charts";
-import {linesSelector} from "./selectors/points-selectors";
-import ChartDetailed from "./components/chart-detailed/chart-detailed";
+import Store from './core/store';
+import ChartLayout from "./components/chart-layout/chart-layout";
+import reducer from './domain/reducer';
+import ComponentsFactory from './core/components-factory';
+
+const store = new Store(reducer);
+const componentsFactory = new ComponentsFactory(store);
+
+const chartLayout = componentsFactory.create(ChartLayout);
+
+chartLayout.render();
+chartLayout.mount(document.body);
 
 
-const store = new DataStorage();
-
-
-const chartPreview = new ChartPreview();
-const chartDetailed = new ChartDetailed();
-
-chartDetailed.render();
-chartDetailed.mount(document.body);
-
-chartPreview.render();
-chartPreview.mount(document.body);
-
-
-store.subscribe(state => {
-   const lines = linesSelector(state);
-   chartPreview.attr('lines', lines)
-       .render();
-    chartDetailed.attr('lines', lines)
-        .render();
-});
-
-
-fetchCharts().then( charts => store.setState(
-    state => {
-       return {...state, charts};
-    }
-));
 
 
