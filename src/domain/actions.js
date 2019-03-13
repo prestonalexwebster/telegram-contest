@@ -1,7 +1,7 @@
 import * as actionTypes from './action-types';
 
 export const fetchCharts = {
-    dispatch: () => fetch('/chart_data.json').then(d => d.json()),
+    dispatch: () => import('../../static/chart_data.json').then(d => d.default),
     async: true,
     type: actionTypes.FETCH_CHARTS
 };
