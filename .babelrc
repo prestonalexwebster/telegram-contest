@@ -2,5 +2,5 @@
   "plugins": [
     "@babel/plugin-proposal-class-properties"
   ],
-  "presets": ["es2015"]
+  "presets": ["@babel/preset-env"]
 }
