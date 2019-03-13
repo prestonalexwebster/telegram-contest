@@ -39,7 +39,7 @@ export default class ChartDetailed extends Component {
         return path.attr('d', lines.path)
             .attr('stroke', lines.color)
             .attr("vector-effect","non-scaling-stroke")
-            .attr('stroke-width', '1px')
+            .attr('stroke-width', '3px')
             .attr('fill', 'none');
     };
 

@@ -77,7 +77,7 @@ export default class ControlledChartPreview extends Component {
         const {seekerLeft} = this.attributes;
         return this.leftField
             .style('position', 'absolute')
-            .style('background-color', 'rgba(77, 153,153, 0.1)')
+            .style('background-color', 'rgba(26, 105,155, 0.04)')
             .style('left',0)
             .style('top', 0)
             .style('height', '50px')
@@ -89,7 +89,7 @@ export default class ControlledChartPreview extends Component {
         const {seekerLeft, seekerWidth} = this.attributes;
         return this.rightField
             .style('position', 'absolute')
-            .style('background-color', 'rgba(77, 153,153, 0.1)')
+            .style('background-color', 'rgba(26, 105,155, 0.04)')
             .style('right',0)
             .style('top', 0)
             .style('height', '50px')
