@@ -1,3 +1,5 @@
+import {detailedChartSize} from "../constants/charts-size";
+
 const min  = c => c.reduce((min,v) => Math.min(v,min));
 const max = c => c.reduce((max,v) => Math.max(v,max));
 
@@ -78,8 +80,8 @@ export const linesSelector = state => {
 export const seekerSelector = state => {
     if(!state.xRange) return {};
     return {
-        seekerLeft: state.xRange[0]*600,
-        seekerWidth: (state.xRange[1]-state.xRange[0])*600
+        seekerLeft: state.xRange[0]*detailedChartSize,
+        seekerWidth: (state.xRange[1]-state.xRange[0])*detailedChartSize
     }
 };
 

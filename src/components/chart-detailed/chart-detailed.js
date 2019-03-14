@@ -2,6 +2,7 @@ import DomRenderer from '../../core/renderers/dom-renderer';
 import Component from '../../core/component/component';
 import {ChildrenTagsRenderer} from "../../core/renderers/children-renderer";
 import {linesSelector, rangesSelector} from "../../selectors/points-selectors";
+import {detailedChartSize} from "../../constants/charts-size";
 
 function getTransform([xMin, xMax], [yMin, yMax]){
     return `scale(${1/(xMax-xMin)}, ${1/(yMax-yMin)}) translate(${-xMin},${yMax-1})`
@@ -28,8 +29,8 @@ export default class ChartDetailed extends Component {
     renderChart(children){
         return this.chartContainer
             .attr('viewBox', "0 0 1 1")
-            .attr('width', '600px')
-            .attr('height', '600px')
+            .attr('width', `${detailedChartSize}px`)
+            .attr('height', `${detailedChartSize}px`)
             .attr('preserveAspectRatio',"none")
             .children(children)
             .render();
@@ -44,9 +45,9 @@ export default class ChartDetailed extends Component {
     };
 
     renderView = (children) => {
-        const {xRange = [550/600,1], yRange = [0,1]} = this.attributes;
+        const {xRange = [0,1], yRange = [0,1]} = this.attributes;
         return this.view
-            .attr('transform', getTransform(xRange, yRange))//todo: create xyRangesSelector (possibly discret by days)
+            .attr('transform', getTransform(xRange, yRange))
             .children(children)
             .render();
     };

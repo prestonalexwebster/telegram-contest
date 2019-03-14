@@ -3,6 +3,7 @@ import {setRange} from "../../domain/actions";
 import DomRenderer from "../../core/renderers/dom-renderer";
 import ChartPreview from "../chart-preview/chart-preview";
 import {seekerSelector} from '../../selectors/points-selectors';
+import {detailedChartSize, previewChartHeight} from "../../constants/charts-size";
 
 export default class ControlledChartPreview extends Component {
 
@@ -23,7 +24,7 @@ export default class ControlledChartPreview extends Component {
     rightField = new DomRenderer('div');
 
     selector(state){
-        const {seekerLeft = 550, seekerWidth = 50} = seekerSelector(state);
+        const {seekerLeft, seekerWidth} = seekerSelector(state);
         return {seekerLeft,seekerWidth};
     }
 
@@ -50,8 +51,8 @@ export default class ControlledChartPreview extends Component {
         }
         const diff = clientX - this.dragPosition;
         const {seekerLeft, seekerWidth} = this.attributes;
-        const xStart = Math.max(0,Math.min((seekerLeft+diff)/600,1-seekerWidth/600));
-        const xEnd = xStart + seekerWidth/600;
+        const xStart = Math.max(0,Math.min((seekerLeft+diff)/detailedChartSize,1-seekerWidth/detailedChartSize));
+        const xEnd = xStart + seekerWidth/detailedChartSize;
         this.actions.setRange([xStart, xEnd]);
         this.dragPosition = clientX;
     };
@@ -77,7 +78,7 @@ export default class ControlledChartPreview extends Component {
             .style('position', 'absolute')
             .style('left', `${seekerLeft}px`)
             .style('width', `${seekerWidth}px`)
-            .style('height', '50px')
+            .style('height', `${previewChartHeight}px`)
             .style('background-color', 'transparent')
             .style('cursor', 'pointer')
             .on('mousedown',this.dragStart)
@@ -93,7 +94,7 @@ export default class ControlledChartPreview extends Component {
             .style('background-color', 'rgba(26, 105,155, 0.04)')
             .style('left',0)
             .style('top', 0)
-            .style('height', '50px')
+            .style('height', `${previewChartHeight}px`)
             .style('width', `${seekerLeft}px`)
             .render();
     }
@@ -105,8 +106,8 @@ export default class ControlledChartPreview extends Component {
             .style('background-color', 'rgba(26, 105,155, 0.04)')
             .style('right',0)
             .style('top', 0)
-            .style('height', '50px')
-            .style('width', `${600-seekerLeft-seekerWidth}px`)
+            .style('height', `${previewChartHeight}px`)
+            .style('width', `${detailedChartSize-seekerLeft-seekerWidth}px`)
             .render();
     }
 
@@ -114,8 +115,8 @@ export default class ControlledChartPreview extends Component {
         return this.controlsContainer
             .style('position', 'absolute')
             .style('z-index', '1000')
-            .style('width', '600px')
-            .style('height', '50px')
+            .style('width', `${detailedChartSize}px`)
+            .style('height', `${previewChartHeight}px`)
             .style('left',0)
             .style('top', 0)
             .on('touchmove', this.touch)

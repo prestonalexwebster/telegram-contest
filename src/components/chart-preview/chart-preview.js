@@ -2,6 +2,7 @@ import DomRenderer from '../../core/renderers/dom-renderer';
 import Component from '../../core/component/component';
 import {ChildrenTagsRenderer} from "../../core/renderers/children-renderer";
 import {linesSelector} from "../../selectors/points-selectors";
+import {detailedChartSize, previewChartHeight} from '../../constants/charts-size';
 
 
 export default class ChartPreview extends Component {
@@ -22,8 +23,8 @@ export default class ChartPreview extends Component {
     renderChart(children){
         return this.chartContainer
             .attr('viewBox', "0 0 1 1")
-            .attr('width', '600px')
-            .attr('height', '50px')
+            .attr('width', `${detailedChartSize}px`)
+            .attr('height', `${previewChartHeight}px`)
             .attr('preserveAspectRatio',"none")
             .children(children)
             .render();
