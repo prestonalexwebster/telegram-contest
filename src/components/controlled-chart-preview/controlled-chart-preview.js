@@ -40,6 +40,10 @@ export default class ControlledChartPreview extends Component {
         this.dragPosition = clientX;
     };
 
+    touchStart = ({changedTouches}) => {
+        this.dragStart(changedTouches[0]);
+    };
+
     drag = ({clientX}) => {
         if(!this.dragged) {
             return;
@@ -52,11 +56,19 @@ export default class ControlledChartPreview extends Component {
         this.dragPosition = clientX;
     };
 
+    touch = ({changedTouches}) => {
+        this.drag(changedTouches[0]);
+    };
+
     dragEnd = () => {
         if(!this.dragged) {
             return;
         }
         this.dragged = false;
+    };
+
+    touchEnd = ({changedTouches}) => {
+        this.dragEnd(changedTouches[0]);
     };
 
     renderSeeker(){
@@ -69,6 +81,7 @@ export default class ControlledChartPreview extends Component {
             .style('background-color', 'transparent')
             .style('cursor', 'pointer')
             .on('mousedown',this.dragStart)
+            .on('touchstart', this.touchStart)
             .render();
     }
 
@@ -105,7 +118,9 @@ export default class ControlledChartPreview extends Component {
             .style('height', '50px')
             .style('left',0)
             .style('top', 0)
+            .on('touchmove', this.touch)
             .on('mousemove', this.drag)
+            .on('touchend', this.touchEnd)
             .on('mouseup', this.dragEnd)
             .on('mouseleave', this.dragEnd)
             .children([

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --host 192.168.1.92 --port 3005",
     "build": "webpack"
   },
   "dependencies": {},
