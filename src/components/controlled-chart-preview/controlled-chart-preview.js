@@ -2,7 +2,7 @@ import Component from "../../core/component/component";
 import {setRange} from "../../domain/actions";
 import DomRenderer from "../../core/renderers/dom-renderer";
 import ChartPreview from "../chart-preview/chart-preview";
-import {seekerSelector} from '../../selectors/points-selectors';
+import {seekerSelector} from '../../selectors/seeker-selector';
 import {detailedChartSize, previewChartHeight} from "../../constants/charts-size";
 import PureDomRenderer from "../../core/renderers/pure-dom-renderer";
 

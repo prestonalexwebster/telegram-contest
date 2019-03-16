@@ -1,8 +1,9 @@
 import DomRenderer from '../../core/renderers/dom-renderer';
 import Component from '../../core/component/component';
 import {ChildrenTagsRenderer} from "../../core/renderers/children-renderer";
-import {linesSelector, rangesSelector} from "../../selectors/points-selectors";
+import {linesSelector} from "../../selectors/lines-selector";
 import {detailedChartSize} from "../../constants/charts-size";
+import {rangesSelector} from "../../selectors/ranges-selector";
 
 function getTransform([xMin, xMax], [yMin, yMax]){
     return `scale(${1/(xMax-xMin)}, ${1/(yMax-yMin)}) translate(${-xMin},${yMax-1})`

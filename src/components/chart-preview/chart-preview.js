@@ -1,7 +1,7 @@
 import DomRenderer from '../../core/renderers/dom-renderer';
 import Component from '../../core/component/component';
 import {ChildrenTagsRenderer} from "../../core/renderers/children-renderer";
-import {linesSelector} from "../../selectors/points-selectors";
+import {linesSelector} from "../../selectors/lines-selector";
 import {detailedChartSize, previewChartHeight} from '../../constants/charts-size';
 
 
@@ -30,9 +30,9 @@ export default class ChartPreview extends Component {
             .render();
     }
 
-    renderPath = (lines, i, path) => {
-         return path.attr('d', lines.path)
-             .attr('stroke', lines.color)
+    renderPath = (line, i, path) => {
+         return path.attr('d', line.path)
+             .attr('stroke', line.color)
              .attr("vector-effect","non-scaling-stroke")
              .attr('stroke-width', '1px')
              .attr('fill', 'none');

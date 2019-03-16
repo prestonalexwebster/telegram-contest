@@ -6,6 +6,9 @@ export const bindAction = (action, dispatch) => {
             dispatch({type: action.type, data});
         });
     }
+    if(!action.dispatch){
+        return () => dispatch({type: action.type});
+    }
     return (...args) => dispatch({type: action.type, data: action.dispatch(...args)})
 };
 
