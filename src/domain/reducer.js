@@ -5,14 +5,15 @@ const initialState = {
     xRange: [550/detailedChartSize, 1]
 };
 
-function getHiddenCharts(charts){
-    return charts.map(chart => {
+function getHiddenCharts(charts, shownIndex){
+    return charts.map((chart, index) => {
+        const isHidden = index !== shownIndex;
         return chart.columns.filter(c => c[0] !== 'x')
             .map(c => c[0])
             .reduce((acc, label) => {
                 return {
                     ...acc,
-                    [label]: false
+                    [label]: isHidden
                 }
             }, {});
     })
@@ -30,6 +31,10 @@ function updateChartsVisibility(hiddenCharts, index, label, value){
     })
 }
 
+function visibleChartsCount(hiddenCharts){
+    return hiddenCharts.reduce((sum, hiddenLines) => sum+Object.values(hiddenLines).filter(hidden => !hidden).length, 0);
+}
+
 export default function reducer(prevState, action) {
     const state = prevState || initialState;
     switch (action.type) {
@@ -37,14 +42,18 @@ export default function reducer(prevState, action) {
             return {
                 ...state,
                 charts: action.data,
-                hiddenCharts: getHiddenCharts(action.data)
+                hiddenCharts: getHiddenCharts(action.data, 0)
             };
         case actionTypes.SET_X_RANGE:
             return {...state, xRange: action.data};
         case actionTypes.HIDE_CHART:
             return {
                 ...state,
-                hiddenCharts: updateChartsVisibility(state.hiddenCharts, action.data.index, action.data.label, true)
+                hiddenCharts: (
+                    visibleChartsCount(state.hiddenCharts) > 1
+                        ?  updateChartsVisibility(state.hiddenCharts, action.data.index, action.data.label, true)
+                        : state.hiddenCharts
+                )
             };
         case actionTypes.SHOW_CHART:
             return {

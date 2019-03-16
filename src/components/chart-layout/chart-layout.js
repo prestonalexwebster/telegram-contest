@@ -56,6 +56,7 @@ export default class ChartLayout extends Component {
             .style('border', `2px solid ${color}`)
             .style('border-radius', '30%')
             .style('color', visible ? "#fff" : "#000")
+            .style('user-select', 'none')
             .on('click', visible ? ()=>this.actions.hideChart(index, label) : ()=>this.actions.showChart(index, label))
             .render();
     };
