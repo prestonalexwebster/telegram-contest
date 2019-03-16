@@ -4,6 +4,7 @@ import DomRenderer from "../../core/renderers/dom-renderer";
 import ChartPreview from "../chart-preview/chart-preview";
 import {seekerSelector} from '../../selectors/points-selectors';
 import {detailedChartSize, previewChartHeight} from "../../constants/charts-size";
+import PureDomRenderer from "../../core/renderers/pure-dom-renderer";
 
 export default class ControlledChartPreview extends Component {
 
@@ -19,9 +20,11 @@ export default class ControlledChartPreview extends Component {
 
     seeker = new DomRenderer('div');
 
-    leftField = new DomRenderer('div');
+    group = new DomRenderer('div');
 
-    rightField = new DomRenderer('div');
+    leftField = new PureDomRenderer('div');
+
+    rightField = new PureDomRenderer('div');
 
     selector(state){
         const {seekerLeft, seekerWidth} = seekerSelector(state);
@@ -73,10 +76,9 @@ export default class ControlledChartPreview extends Component {
     };
 
     renderSeeker(){
-        const {seekerLeft, seekerWidth} = this.attributes;
+        const {seekerWidth} = this.attributes;
         return this.seeker
-            .style('position', 'absolute')
-            .style('left', `${seekerLeft}px`)
+            .style('display', 'inline-block')
             .style('width', `${seekerWidth}px`)
             .style('height', `${previewChartHeight}px`)
             .style('background-color', 'transparent')
@@ -88,26 +90,33 @@ export default class ControlledChartPreview extends Component {
 
 
     renderLeftField(){
-        const {seekerLeft} = this.attributes;
         return this.leftField
-            .style('position', 'absolute')
             .style('background-color', 'rgba(26, 105,155, 0.04)')
-            .style('left',0)
-            .style('top', 0)
+            .style('display', 'inline-block')
             .style('height', `${previewChartHeight}px`)
-            .style('width', `${seekerLeft}px`)
-            .render();
+            .style('width', `${detailedChartSize}px`);
     }
 
     renderRightField(){
-        const {seekerLeft, seekerWidth} = this.attributes;
         return this.rightField
-            .style('position', 'absolute')
             .style('background-color', 'rgba(26, 105,155, 0.04)')
-            .style('right',0)
-            .style('top', 0)
+            .style('display', 'inline-block')
             .style('height', `${previewChartHeight}px`)
-            .style('width', `${detailedChartSize-seekerLeft-seekerWidth}px`)
+            .style('width', `${detailedChartSize}px`);
+    }
+
+
+    renderGroup(){
+        const {seekerLeft} = this.attributes;
+        return this.group
+            .style('display', 'block')
+            .style('width', `${detailedChartSize*3}px`)
+            .style('transform', `translateX(${seekerLeft-detailedChartSize}px)`)
+            .children([
+                this.renderLeftField(),
+                this.renderSeeker(),
+                this.renderRightField()
+            ])
             .render();
     }
 
@@ -115,6 +124,7 @@ export default class ControlledChartPreview extends Component {
         return this.controlsContainer
             .style('position', 'absolute')
             .style('z-index', '1000')
+            .style('overflow', 'hidden')
             .style('width', `${detailedChartSize}px`)
             .style('height', `${previewChartHeight}px`)
             .style('left',0)
@@ -125,9 +135,7 @@ export default class ControlledChartPreview extends Component {
             .on('mouseup', this.dragEnd)
             .on('mouseleave', this.dragEnd)
             .children([
-                this.renderLeftField(),
-                this.renderSeeker(),
-                this.renderRightField()
+                this.renderGroup()
             ])
             .render();
     }
