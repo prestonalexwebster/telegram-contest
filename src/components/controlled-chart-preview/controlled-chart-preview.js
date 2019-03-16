@@ -79,8 +79,12 @@ export default class ControlledChartPreview extends Component {
         const {seekerWidth} = this.attributes;
         return this.seeker
             .style('display', 'inline-block')
+            .style('box-sizing', 'border-box')
             .style('width', `${seekerWidth}px`)
             .style('height', `${previewChartHeight}px`)
+            .style('border-width', '3px 10px')
+            .style('border-style', 'solid')
+            .style('border-color', 'rgba(119, 171, 207, 0.25)')
             .style('background-color', 'transparent')
             .style('cursor', 'pointer')
             .on('mousedown',this.dragStart)
@@ -91,7 +95,7 @@ export default class ControlledChartPreview extends Component {
 
     renderLeftField(){
         return this.leftField
-            .style('background-color', 'rgba(26, 105,155, 0.04)')
+            .style('background-color', 'rgba(242, 247, 250,0.75 )')
             .style('display', 'inline-block')
             .style('height', `${previewChartHeight}px`)
             .style('width', `${detailedChartSize}px`);
@@ -99,7 +103,7 @@ export default class ControlledChartPreview extends Component {
 
     renderRightField(){
         return this.rightField
-            .style('background-color', 'rgba(26, 105,155, 0.04)')
+            .style('background-color', 'rgba(242, 247, 250,0.75 )')
             .style('display', 'inline-block')
             .style('height', `${previewChartHeight}px`)
             .style('width', `${detailedChartSize}px`);
