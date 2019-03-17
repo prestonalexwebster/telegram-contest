@@ -1,6 +1,6 @@
 import Component from "../../core/component/component";
 import DomRenderer from "../../core/renderers/dom-renderer";
-import ChartDetailed from "../chart-detailed/chart-detailed";
+import ControlledDetailedChart from "../controlled-detailed-chart/controlled-detailed-chart";
 import ControlledChartPreview from '../controlled-chart-preview/controlled-chart-preview';
 import {fetchCharts, showChart, hideChart} from "../../domain/actions";
 import {detailedChartSize} from "../../constants/charts-size";
@@ -19,7 +19,7 @@ export default class ChartLayout extends Component {
 
     grid = new DomRenderer('div');
 
-    chartDetailed = this.createComponent(ChartDetailed);
+    chartDetailed = this.createComponent(ControlledDetailedChart);
 
     chartPreview = this.createComponent(ControlledChartPreview);
 

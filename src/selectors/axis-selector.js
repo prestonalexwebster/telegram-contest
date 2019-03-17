@@ -1,7 +1,9 @@
 import {createSelector} from "../core/state-management/create-selector";
 import {axisBoundsSelector} from './lines-selector';
+import {rangesSelector} from "./ranges-selector";
 
-const ticksNumber = 7;
+const xTicksNumber = 7;
+const yTicksNumber = 5;
 
 const invertedNaturalLog2 = number => {
     let current = 0;
@@ -41,23 +43,41 @@ function findTickBefore(value, ticksCount) {
     return Math.floor(value * ticksCount);
 }
 
-function ticksRange(start, length, capacity, mapper){
+function ticksXRange(start, length, capacity, mapper){
     return new Array(length).fill(0).map( (_, i) => {
         const tickIndex = i + start;
         return mapper(tickIndex/(capacity-1));
     });
 }
 
+function findYAxisTop(yTop, yMax){
+    let yAxisTop = yMax*(yTicksNumber/(yTicksNumber+1));
+    while(yAxisTop > 1 && yAxisTop > yTop){
+        yAxisTop *= yTicksNumber/(yTicksNumber+1);
+    }
+    return yAxisTop;
+}
+
+function ticksYRange(yTicksTop, yMax, yRange){
+    return new Array(yTicksNumber).fill(0).map((_,i)=>{
+        const value = yTicksTop*((i+1)/(yTicksNumber+1));
+        return {
+            value: parseInt(value),
+            y: value/yRange[1]/yMax
+        }
+    });
+}
+
 export const ticksSelector = createSelector(
-    state => state.xRange,
+    rangesSelector,
     axisBoundsSelector,
-    (xRange, {xMin, xMax}) => {
+    ({xRange,yRange}, {xMin, xMax, yMax}) => {
         if (!xRange) return [];
         const size = xRange[1] - xRange[0];
         const log2Scale = invertedNaturalLog2(size);
-        const totalTicks = (ticksNumber - 1) * Math.pow(2, log2Scale) + 1;
+        const totalTicks = (xTicksNumber - 1) * Math.pow(2, log2Scale) + 1;
         const firstTickIndex = findTickBefore(xRange[0], totalTicks);
-        const xTicks = ticksRange(firstTickIndex, ticksNumber, totalTicks, (tickX) => {
+        const xTicks = ticksXRange(firstTickIndex, xTicksNumber, totalTicks, (tickX) => {
             const time = parseInt(tickX*(xMax-xMin)+xMin);
             return {
                 x: tickX,
@@ -65,8 +85,13 @@ export const ticksSelector = createSelector(
                 date: toDate(time)
             };
         });
+
+        const yTop = yRange[1]*yMax;
+        const yAxisTop = findYAxisTop(yTop, yMax);
+        const yTicks = ticksYRange(yAxisTop, yMax, yRange);
         return {
-            xTicks
+            xTicks,
+            yTicks
         };
     }
 );

@@ -20,18 +20,19 @@ export const rangesSelector = createSelector(
             ({xColumn, yColumns}) => {
                 const indexStart = findInterpolatedIndex(xColumn, xMin + xRange[0] * (xMax - xMin));
                 const indexEnd = findInterpolatedIndex(xColumn, xMin + xRange[1] * (xMax - xMin));
-                const yStart = (min(Object.values(yColumns).map(c => min(interpolatedSlice(c, indexStart, indexEnd)))) - yMin) / (yMax - yMin);
+                //const yStart = (min(Object.values(yColumns).map(c => min(interpolatedSlice(c, indexStart, indexEnd)))) - yMin) / (yMax - yMin);
                 const yEnd = (max(Object.values(yColumns).map(c => max(interpolatedSlice(c, indexStart, indexEnd)))) - yMin) / (yMax - yMin);
-                return [yStart, yEnd];
+                //return [yStart, yEnd];
+                return yEnd;
             }
         );
 
-        const yStart = min(yRanges.map(([start]) => start));
-        const yEnd = max(yRanges.map(([start, end]) => end));
+        //const yStart = min(yRanges.map(([start]) => start));
+        const yEnd = max(yRanges/*.map(([start, end]) => end)*/);
 
         return {
             xRange: xRange,
-            yRange: [yStart, yEnd]
+            yRange: [0, yEnd]
         }
     }
 );

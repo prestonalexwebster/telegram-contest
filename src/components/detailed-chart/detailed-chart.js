@@ -9,7 +9,7 @@ function getTransform([xMin, xMax], [yMin, yMax]){
     return `scale(${1/(xMax-xMin)}, ${1/(yMax-yMin)}) translate(${-xMin},${yMax-1})`
 }
 
-export default class ChartDetailed extends Component {
+export default class DetailedChart extends Component {
 
     chartContainer = new DomRenderer('svg', {svg: true});
 
