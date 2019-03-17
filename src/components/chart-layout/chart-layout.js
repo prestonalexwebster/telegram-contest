@@ -6,6 +6,7 @@ import {fetchCharts, showChart, hideChart} from "../../domain/actions";
 import {detailedChartSize} from "../../constants/charts-size";
 import {ChildrenTagsRenderer} from "../../core/renderers/children-renderer";
 import {togglersStateSelector} from '../../selectors/hidden-charts-selectors';
+import DateAxis from "../date-axis/date-axis";
 
 
 export default class ChartLayout extends Component {
@@ -21,6 +22,8 @@ export default class ChartLayout extends Component {
     chartDetailed = this.createComponent(ChartDetailed);
 
     chartPreview = this.createComponent(ControlledChartPreview);
+
+    chartXAxis = this.createComponent(DateAxis);
 
     chartControlsContainer = new DomRenderer('div');
 
@@ -78,6 +81,7 @@ export default class ChartLayout extends Component {
     render(){
         return this.renderGrid([
             this.chartDetailed.render(),
+            this.chartXAxis.render(),
             this.chartPreview.render(),
             this.renderChartControls()
         ]);

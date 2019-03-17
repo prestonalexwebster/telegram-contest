@@ -1,8 +1,7 @@
 import * as actionTypes from "./action-types";
-import {detailedChartSize} from '../constants/charts-size';
 
 const initialState = {
-    xRange: [550/detailedChartSize, 1]
+    xRange: [0.75, 1]
 };
 
 function getHiddenCharts(charts, shownIndex){
