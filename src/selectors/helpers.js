@@ -16,7 +16,7 @@ export const getPath = (xs, ys, [xMin, xMax], [yMin, yMax]) => {
     return `M${start.x} ${start.y} ${restPoints.map(({x, y}) => `L${x} ${y}`).join(' ')}`;
 };
 
-const findNearestIndex = (c, x) => c.reduce((index, d, i) => Math.abs(c[index] - x) > Math.abs(d - x) ? i : index, 0);
+export const findNearestIndex = (c, x) => c.reduce((index, d, i) => Math.abs(c[index] - x) > Math.abs(d - x) ? i : index, 0);
 
 export const findInterpolatedIndex = (list, x) => {
     const i = findNearestIndex(list, x);

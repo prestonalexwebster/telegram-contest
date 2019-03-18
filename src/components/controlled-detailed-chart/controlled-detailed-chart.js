@@ -3,9 +3,9 @@ import Component from "../../core/component/component";
 import DomRenderer from "../../core/renderers/dom-renderer";
 import DetailedChart from "../detailed-chart/detailed-chart";
 import {ticksSelector} from "../../selectors/axis-selector";
-import {rangesSelector} from "../../selectors/ranges-selector";
 import {ChildrenTagsRenderer} from "../../core/renderers/children-renderer";
 import PureDomRenderer from "../../core/renderers/pure-dom-renderer";
+import DetailedChartTooltip from '../detailed-chart-tooltip/detailed-chart-tooltip'
 
 export default class ControlledDetailedChart extends Component {
 
@@ -14,7 +14,11 @@ export default class ControlledDetailedChart extends Component {
 
     chartDetailed = this.createComponent(DetailedChart);
 
+    detailedChartTooltip = this.createComponent(DetailedChartTooltip);
+
     chartDetailedContainer = new DomRenderer('div');
+
+    tooltipContainer = new DomRenderer('div');
 
     controlsContainer = new DomRenderer('svg', {svg: true});
 
@@ -64,7 +68,7 @@ export default class ControlledDetailedChart extends Component {
             .text('0');
     }
 
-    renderControls(){
+    renderAxisGrid(){
         const {yTicks = []} = this.attributes;
         return this.controlsContainer
             .style('position', 'absolute')
@@ -89,6 +93,14 @@ export default class ControlledDetailedChart extends Component {
             .render();
     }
 
+    renderDetailedChartTooltip(){
+        return this.tooltipContainer
+            .style('position', 'absolute')
+            .style('z-index',3000)
+            .children([this.detailedChartTooltip.render()])
+            .render();
+    }
+
     renderContainer(children){
         return this.container
             .style('position', 'relative')
@@ -102,8 +114,9 @@ export default class ControlledDetailedChart extends Component {
 
     render(){
         return this.renderContainer([
-            this.renderControls(),
-            this.renderDetailedChart()
+            this.renderAxisGrid(),
+            this.renderDetailedChart(),
+            this.renderDetailedChartTooltip()
         ]);
     }
 }

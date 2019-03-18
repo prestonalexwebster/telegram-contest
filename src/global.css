@@ -1,0 +1,10 @@
+.chart-x-axis{
+    visibility: hidden;
+}
+
+.chart-x-axis:hover{
+    visibility: visible;
+}
+.chart-x-axis:hover{
+    visibility: visible;/*todo: fix, it doesn't work*/
+}

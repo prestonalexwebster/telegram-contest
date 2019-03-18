@@ -36,13 +36,13 @@ export const axisBoundsSelector = createSelector(
         }
         const xMin = min(chartPairs.map(({xColumn})=>min(xColumn)));
         const xMax = max(chartPairs.map(({xColumn})=>max(xColumn)));
-        const yMin = min(
+        /*const yMin = min(
             chartPairs.map(
                 ({yColumns}) => min(
                     Object.entries(yColumns).map(([title, column]) => min(column) )
                 )
             )
-        );
+        );*/
         const yMax = max(
             chartPairs.map(
                 ({yColumns}) => max(
@@ -53,7 +53,7 @@ export const axisBoundsSelector = createSelector(
         return {
             xMin,
             xMax,
-            yMin,
+            yMin: 0,
             yMax
         }
     }
@@ -82,3 +82,4 @@ export const linesSelector = createSelector(
         }, []);
     }
 );
+

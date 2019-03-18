@@ -158,7 +158,11 @@ export default  class DomRenderer {
             return;
         }
         this.prevChildElements.filter(e => !this.childElements.includes(e))
-            .forEach(e => this.ref.removeChild(e.ref));
+            .forEach(e => {
+                if(e.ref.parentNode){ //something wrong occurs here, possibly because of children-renderer behaviour
+                    this.ref.removeChild(e.ref);
+                }
+            });
         if(!this.childElements.length){
             return;
         }
